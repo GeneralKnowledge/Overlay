@@ -70,6 +70,7 @@ function reply_click()
       newImg.onload = function() {
         var width  = 4800;
         var height = 4200;
+        console.log(width*height)
         var ratio = 1;
         if (img.width > img.height)
           ratio = height / img.height
