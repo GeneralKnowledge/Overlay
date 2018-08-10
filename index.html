@@ -7,13 +7,24 @@
 </head>
 <body>
  
-<style>
-
-</style>
-
+  <style>
+  * {
+   margin: 0;
+   padding: 0;
+  }
+  .imgbox {
+   display: grid;
+   height: 100%;
+  }
+  .center-fit {
+   max-width: 100%;
+   max-height: 100vh;
+   margin: auto;
+  }
+  </style>
 
  <button type="button" id="bbb" onClick="reply_click()">Click Me!</button> <input type='file' id="inputButton" accept='images/*' onchange='openFile(event);'>
-<img src="red-panda.jpg" alt="Red panda" class="mask img1" data-mask="X-01.png">
+<div class="imgbox"><img src="red-panda.jpg" alt="Red panda" class="mask center-fit" data-mask="X-01.png"></div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
 <script >
