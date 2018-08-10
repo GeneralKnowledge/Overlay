@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+  <meta name="viewport" content="width=device-width">
+  <meta charset="UTF-8">
+  <title>Canvas masking</title>
+</head>
+<body>
+ 
+<style>
+
+</style>
+
+
+ <button type="button" id="bbb" onClick="reply_click()">Click Me!</button> <input type='file' id="inputButton" accept='images/*' onchange='openFile(event);'>
+<img src="red-panda.jpg" alt="Red panda" class="mask img1" data-mask="X-01.png">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+<script >
+  // This grabs the file contents when the file changes
+var openFile = function(event) {
+  var input = event.target;
+
+  // Instantiate FileReader
+  var reader = new FileReader();
+  reader.onload = function(){
+    TheFileContents = reader.result;
+    // Update the output to include the <img> tag with the data URL as the source
+    [].forEach.call(document.querySelectorAll('.mask'), function(img){
+      img.src = TheFileContents;
+    });
+  };
+  // Produce a data URL (base64 encoded string of the data in the file)
+  // We are retrieving the first file from the FileList object
+  reader.readAsDataURL(input.files[0]);
+};
+</script>
+
+<script>
+  
+
+function reply_click()
+{
+    // do something
+
+  var imagecanvas = document.createElement('canvas');
+  var imagecontext = imagecanvas.getContext('2d');
+
+  /* uncomment do see the canvas to debug
+  document.body.appendChild(imagecanvas);
+  */
+
+    [].forEach.call(document.querySelectorAll('.mask'), function(img){
+      var newImg = document.createElement('img');
+      newImg.src = img.src;
+      
+      newImg.onload = function() {
+        var width  = 4800;
+        var height = 4200;
+        var ratio = 1;
+        if (img.width > img.height)
+          ratio = height / img.height
+        else
+          ratio = width / img.width
+
+        var newW = img.width * ratio
+        var newH = img.height * ratio
+        console.log(newW)
+        var mask = document.createElement('img');
+        mask.src = img.getAttribute('data-mask');
+        mask.onload = function() {
+          imagecanvas.width  = width;
+          imagecanvas.height = height;
+
+          imagecontext.drawImage(mask, 0, 0, width, height);
+          imagecontext.globalCompositeOperation = 'source-in';
+
+          console.log(height - img.height)
+
+          imagecontext.drawImage(img, (width-newW)/2, (height-newH)/2, newW, newH);
+
+
+
+          img.src = imagecanvas.toDataURL();
+        
+        }
+      }
+    });
+
+
+
+}
+
+
+</script>
+</body>
+</html>
